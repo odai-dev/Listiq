@@ -50,3 +50,32 @@ export function deleteTodo(projectId, todoId) {
     storage.saveProjects(projects);
 }
 
+export function toggleTodoComplete(projectId, todoId) {
+    const p = projects.find(x => x.id === projectId);
+    if (!p) return;
+    const t = p.findTodo(todoId);
+    if (!t) return;
+    t.toggleComplete();
+    storage.saveProjects(projects);
+}
+
+export function editTodo(projectId, todoId, fields) {
+    const p = projects.find(x => x.id === projectId);
+    if (!p) return;
+    const t = p.findTodo(todoId);
+    if (!t) return;
+    t.update(fields);
+    storage.saveProjects(projects);
+}
+
+export function deleteProject(projectId) {
+    projects = projects.filter(p => p.id !== projectId);
+    if(!projects.length) {
+        const fallback = createProject({name: "default"});
+        projects.push(fallback);
+        activeProjectId = fallback.id;
+    } else if (!projects.find(p => p.id === activeProjectId)) {
+        activeProjectId = projects[0].id;
+    }
+    storage.saveProjects(projects);
+}
