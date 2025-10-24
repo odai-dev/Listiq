@@ -5,7 +5,7 @@ import * as storage from './storage';
 let projects = [];
 let activeProjectId = null;
 
-export function initApp() {
+export default  function initApp() {
     const loaded = storage.loadProjects();
     if (loaded && loaded.length) {
         projects = loaded;

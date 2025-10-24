@@ -15,48 +15,41 @@
                     <i class="fa-solid fa-list-check fa-2x"></i>
                     <h1>Listiq</h1>
                 </div>
-                <button class="btn btn-primary">New Project</button>
+                <div class="new-project-form">
+                    <input type="text" placeholder="Project name" id="newProjectInput">
+                    <button class="btn btn-primary" id="createProjectBtn">Add Project</button>
+                </div>
                 <div class="projects-list">
-                    <a href="#">Inbox</a>
                 </div>
             </div>
         </aside>
 
         <main>
             <header>
-                <h2 id="projectName">Inbox</h2>
+                <h2 id="activeProjectName">Inbox</h2>
                 <div class="search-box">
                     <span class="material-symbols-outlined">search</span>
                     <input type="text" placeholder="search...">
                 </div>
             </header>
 
-            <div class="tasks">
-
-                <div class="task completed">
-                    <input type="checkbox" class="task-checkbox">
-                    <div class="task-content">
-                        <p class="task-title">Finish The oding project to-do list project</p>
-                        <p class="task-date">Due: Today</p>
+            <div class="todos">
+                <div class="new-todo-form">
+                    <div class="hidden ">
+                        <input type="text" placeholder="Todo title" id="todoTitle">
+                    <textarea placeholder="Description" id="todoDescription" ></textarea>
+                    
+                    <input type="date" id="todoDueDate">
+                    <span>Priority</span>
+                    <select  id="todoPriority">
+                        <option value="low">Low</option>
+                        <option value="medium">medium</option>
+                        <option value="high">high</option>
+                    </select>
                     </div>
-                    <div class="task-priority red"></div>
+                    <button id="createTodoBtn" class="btn btn-primary">New todo</button>
                 </div>
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox">
-                    <div class="task-content">
-                        <p class="task-title">Finish The oding project to-do list project</p>
-                        <p class="task-date">Due: Today</p>
-                    </div>
-                    <div class="task-priority green"></div>
-                </div>
-                <div class="task">
-                    <input type="checkbox" class="task-checkbox">
-                    <div class="task-content">
-                        <p class="task-title">Finish The oding project to-do list project</p>
-                        <p class="task-date">Due: Today</p>
-                    </div>
-                    <div class="task-priority yellow"></div>
-                </div>
+               
 
             </div>
 
