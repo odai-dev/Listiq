@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Listiq Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"></noscript>
 </head>
 <body>
     <div class="page-container">
@@ -33,11 +33,11 @@
 
             <div class="tasks">
 
-                <div class="task">
+                <div class="task completed">
                     <input type="checkbox" class="task-checkbox">
                     <div class="task-content">
                         <p class="task-title">Finish The oding project to-do list project</p>
-                        <p class="task-dat">Due: Today</p>
+                        <p class="task-date">Due: Today</p>
                     </div>
                     <div class="task-priority red"></div>
                 </div>
@@ -45,17 +45,17 @@
                     <input type="checkbox" class="task-checkbox">
                     <div class="task-content">
                         <p class="task-title">Finish The oding project to-do list project</p>
-                        <p class="task-dat">Due: Today</p>
+                        <p class="task-date">Due: Today</p>
                     </div>
-                    <div class="task-priority red"></div>
+                    <div class="task-priority green"></div>
                 </div>
                 <div class="task">
                     <input type="checkbox" class="task-checkbox">
                     <div class="task-content">
                         <p class="task-title">Finish The oding project to-do list project</p>
-                        <p class="task-dat">Due: Today</p>
+                        <p class="task-date">Due: Today</p>
                     </div>
-                    <div class="task-priority red"></div>
+                    <div class="task-priority yellow"></div>
                 </div>
 
             </div>
