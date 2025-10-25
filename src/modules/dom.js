@@ -43,7 +43,7 @@ function renderProjects(projects, activeProjectId) {
 }
 
 
-newProjectBtn.addEventListener('click', ()=>{
+newProjectBtn.addEventListener('click', () => {
     const name = newProjectInput.value.trim();
     if (!name) return;
 
@@ -56,20 +56,26 @@ newProjectBtn.addEventListener('click', ()=>{
 
 function renderTodos(activeProject) {
     const todosEL = document.querySelector('.todos');
-    if(!document.querySelector(".todo-list")) {
-        const todosList = document.createElement("div");
+
+   
+    let todosList = document.querySelector(".todos-list"); 
+    if (!todosList) {
+        todosList = document.createElement("div");
         todosList.classList.add("todos-list");
         todosEL.appendChild(todosList);
+    } else {
+        todosList.innerHTML = '';
     }
 
+   
     const todos = activeProject.todos;
-    todos.forEach(todo  => {
+    todos.forEach(todo => {
         const todoDiv = document.createElement("div");
         todoDiv.classList.add("todo");
         const Checkbox = document.createElement("input");
         Checkbox.classList.add("todo-checkbox");
         Checkbox.type = "checkbox";
-        const content  = document.createElement("div");
+        const content = document.createElement("div");
         content.classList.add("todo-content");
         const title = document.createElement("p");
         title.classList.add("todo-title");
@@ -77,27 +83,28 @@ function renderTodos(activeProject) {
         dueDate.classList.add("todo-date");
         const description = document.createElement("p");
         description.classList.add('todo-desc');
+
         content.appendChild(title);
         content.appendChild(description);
         content.appendChild(dueDate);
-       
+
         const priority = document.createElement("div");
         priority.classList.add("todo-priority");
+        
         todoDiv.appendChild(Checkbox);
         todoDiv.appendChild(content);
         todoDiv.appendChild(priority);
-        
+
         fillTodo(todo, title, description, dueDate, priority);
-        todosEL.appendChild(todoDiv);
-        
+        todosList.appendChild(todoDiv);
     })
 
     console.log(todos);
 }
 
-function fillTodo(todo, titleEl, descriptionEl,  dueDate,priority) {
+function fillTodo(todo, titleEl, descriptionEl, dueDateEl, priorityEl) {
     titleEl.textContent = todo.title;
-    dueDate.textContent = todo.dueDate;
+    dueDateEl.textContent = todo.dueDate;
     descriptionEl.textContent = todo.description;
     let priorityColor = '';
     switch (todo.priority) {
@@ -109,64 +116,65 @@ function fillTodo(todo, titleEl, descriptionEl,  dueDate,priority) {
             break;
         case 'high':
             priorityColor = 'red';
+            break;
         default:
             priorityColor = 'green'
             break;
     }
-    priority.classList.add(priorityColor);
+    priorityEl.classList.add(priorityColor);
 }
 
 function newTodoFormController() {
     const createTodoBtn = document.querySelector("#createTodoBtn");
 
 
-    createTodoBtn.addEventListener('click', ()=> {
+    createTodoBtn.addEventListener('click', () => {
         const hiddenForm = document.querySelector(".todo-form");
         hiddenForm.classList.remove("hidden");
         createTodoBtn.remove();
-    
+
         const addTodoBtn = document.createElement('button');
         addTodoBtn.classList.add("btn");
         addTodoBtn.classList.add("btn-primary");
         addTodoBtn.textContent = "Add Todo";
         addTodoBtn.id = "addTodoBtn";
-    
+
         newTodoForm.appendChild(addTodoBtn);
-    
-    
+
+
         addTodoBtn.addEventListener('click', () => {
             const todoTitle = document.querySelector("#todoTitle");
             const todoDescription = document.querySelector("#todoDescription");
             const todoDueDate = document.querySelector("#todoDueDate");
             const todoPriority = document.querySelector("#todoPriority");
-           
+
             if (
                 !todoTitle.value ||
                 !todoDescription.value ||
                 !todoDueDate.value ||
                 !todoPriority.value
-                ) {
-                    console.log("missng required fields");
-                    return;
-                }
+            ) {
+                console.log("missng required fields");
+                return;
+            }
 
             //reset form
-            logic.createNewToDo(logic.getActiveProject().id, {title: todoTitle.value, description: todoDescription.value, dueDate: todoDueDate.value, priority: todoPriority.value});
+            logic.createNewToDo(logic.getActiveProject().id, { title: todoTitle.value, description: todoDescription.value, dueDate: todoDueDate.value, priority: todoPriority.value });
             todoTitle.value = '';
             todoDescription.value = '';
             todoDueDate.value = '';
 
-
+            renderTodos(logic.getActiveProject());
             hiddenForm.classList.add("hidden");
             addTodoBtn.remove();
             createNewTodoBtn(newTodoForm);
         })
-        
+
     })
-    
-    
+
+
     function createNewTodoBtn(form) {
-        const btn =  document.createElement('button');
+        const btn = document.createElement('button');
         btn.classList.add('btn');
         btn.classList.add('btn-primary');
         btn.id = 'createTodoBtn';
@@ -175,19 +183,19 @@ function newTodoFormController() {
         newTodoFormController();
 
     }
-     
+
 }
 
 
 function hamburgerAndOverlaySidbar() {
-const btn = document.getElementById('hamburgerBtn');
-const sidebar = document.getElementById('sidebar');
+    const btn = document.getElementById('hamburgerBtn');
+    const sidebar = document.getElementById('sidebar');
 
-if (btn && sidebar) {
-  const backdrop = document.createElement('div');
-  backdrop.className = 'overlay-backdrop';
+    if (btn && sidebar) {
+        const backdrop = document.createElement('div');
+        backdrop.className = 'overlay-backdrop';
 
-  backdrop.style.cssText = `
+        backdrop.style.cssText = `
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.4);
@@ -197,33 +205,33 @@ if (btn && sidebar) {
     transition: opacity .2s ease;
   `;
 
-  function openSidebar() {
-    sidebar.classList.add('aside--open');
-    document.body.appendChild(backdrop);
-    requestAnimationFrame(() => {
-      backdrop.style.opacity = '1';
-      backdrop.style.pointerEvents = 'auto';
-    });
-    document.body.style.overflow = 'hidden';
-  }
+        function openSidebar() {
+            sidebar.classList.add('aside--open');
+            document.body.appendChild(backdrop);
+            requestAnimationFrame(() => {
+                backdrop.style.opacity = '1';
+                backdrop.style.pointerEvents = 'auto';
+            });
+            document.body.style.overflow = 'hidden';
+        }
 
-  function closeSidebar() {
-    sidebar.classList.remove('aside--open');
-    backdrop.style.opacity = '0';
-    backdrop.style.pointerEvents = 'none';
-    setTimeout(() => backdrop.remove(), 200);
-    document.body.style.overflow = '';
-  }
-  btn.addEventListener('click', () => {
-    sidebar.classList.contains('aside--open') ? closeSidebar() : openSidebar();
-  });
+        function closeSidebar() {
+            sidebar.classList.remove('aside--open');
+            backdrop.style.opacity = '0';
+            backdrop.style.pointerEvents = 'none';
+            setTimeout(() => backdrop.remove(), 200);
+            document.body.style.overflow = '';
+        }
+        btn.addEventListener('click', () => {
+            sidebar.classList.contains('aside--open') ? closeSidebar() : openSidebar();
+        });
 
-  backdrop.addEventListener('click', closeSidebar);
+        backdrop.addEventListener('click', closeSidebar);
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) closeSidebar();
-  });
-}
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) closeSidebar();
+        });
+    }
 }
 
 
@@ -231,13 +239,12 @@ function priorityBtnsController() {
     const picker = document.querySelector('.priority-picker');
     const hidden = document.getElementById('todoPriority');
     if (!picker || !hidden) return;
-  
+
     picker.addEventListener('click', (e) => {
-      const btn = e.target.closest('.prio');
-      if (!btn) return;
-      picker.querySelectorAll('.prio').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      hidden.value = btn.dataset.priority;
+        const btn = e.target.closest('.prio');
+        if (!btn) return;
+        picker.querySelectorAll('.prio').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        hidden.value = btn.dataset.priority;
     });
 };
-  
