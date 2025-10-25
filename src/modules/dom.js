@@ -40,6 +40,9 @@ function renderProjects(projects, activeProjectId) {
         projectListEl.appendChild(a)
 
     });
+    const activeProjectNameHeader = document.querySelector('#activeProjectName');
+    activeProjectNameHeader.textContent =  logic.getActiveProject().name;
+
 }
 
 
@@ -49,7 +52,7 @@ newProjectBtn.addEventListener('click', () => {
 
     const project = logic.createNewProject(name);
     renderProjects(logic.getProjects(), project.id);
-    renderTasks(project);
+    renderTodos(project);
 
     newProjectInput.value = ' ';
 })
