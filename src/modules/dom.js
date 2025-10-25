@@ -72,27 +72,45 @@ function renderTodos(activeProject) {
     todos.forEach(todo => {
         const todoDiv = document.createElement("div");
         todoDiv.classList.add("todo");
+
         const Checkbox = document.createElement("input");
         Checkbox.classList.add("todo-checkbox");
         Checkbox.type = "checkbox";
+        todoDiv.appendChild(Checkbox);
+        
         const content = document.createElement("div");
         content.classList.add("todo-content");
+        
         const title = document.createElement("p");
         title.classList.add("todo-title");
-        const dueDate = document.createElement("p");
-        dueDate.classList.add("todo-date");
+        content.appendChild(title);
+
         const description = document.createElement("p");
         description.classList.add('todo-desc');
-
-        content.appendChild(title);
         content.appendChild(description);
+
+        const dueDate = document.createElement("p");
+        dueDate.classList.add("todo-date");
         content.appendChild(dueDate);
+
+        todoDiv.appendChild(content);
+
+        const deleteTodoBtn = document.createElement("button");
+        deleteTodoBtn.textContent = 'Delete';
+        deleteTodoBtn.classList.add('btn');
+        deleteTodoBtn.classList.add('red');
+        deleteTodoBtn.id = 'deleteTodoBtn';
+        todoDiv.appendChild(deleteTodoBtn);
+
+        const editTodoBtn = document.createElement("button");
+        editTodoBtn.textContent = 'Edit';
+        editTodoBtn.classList.add('btn');
+        editTodoBtn.classList.add('btn-primary');
+        editTodoBtn.id = 'editTodoBtn';
+        todoDiv.appendChild(editTodoBtn);
 
         const priority = document.createElement("div");
         priority.classList.add("todo-priority");
-        
-        todoDiv.appendChild(Checkbox);
-        todoDiv.appendChild(content);
         todoDiv.appendChild(priority);
 
         fillTodo(todo, title, description, dueDate, priority);

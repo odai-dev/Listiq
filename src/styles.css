@@ -256,6 +256,7 @@ header h2 {
     background: var(--bg-white);
     box-shadow: 0 6px 18px rgba(31, 41, 55, 0.04);
     border: 1px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 0.5rem;
 }
 
 .todo-checkbox {
@@ -288,9 +289,19 @@ header h2 {
     height: 100%;
     border-radius: 0 10px 10px 0;
 }
+#deleteTodoBtn {
+    position: absolute;
+    right: 1rem;
+}
+#editTodoBtn {
+    position: absolute;
+    right: 6rem;
+}
+
 
 .red {
     background: var(--red);
+    color: var(--bg-white);
 }
 
 .yellow {
