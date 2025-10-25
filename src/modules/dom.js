@@ -2,15 +2,9 @@ import * as logic from "./logic";
 
 
 const projectListEl = document.querySelector(".projects-list");
-const activeProjectNameEl = document.querySelector("#activeProjectTitle");
-const todosContainer = document.querySelector(".todos");
-
-const newProjectForm = document.querySelector(".new-project-form");
 const newProjectBtn = document.querySelector("#createProjectBtn");
 const newProjectInput = document.querySelector("#newProjectInput");
-
 const newTodoForm = document.querySelector(".new-todo-form");
-
 
 export default function renderApp() {
     renderProjects(logic.getProjects(), logic.getActiveProject());
@@ -80,6 +74,11 @@ function renderTodos(activeProject) {
         Checkbox.classList.add("todo-checkbox");
         Checkbox.type = "checkbox";
         todoDiv.appendChild(Checkbox);
+        Checkbox.addEventListener('change', () => {
+            todoDiv.classList.add('completed');
+            Checkbox.disabled = true;
+            editTodoBtn.disabled = true;
+        })
         
         const content = document.createElement("div");
         content.classList.add("todo-content");
@@ -171,7 +170,6 @@ function openTodoForm(todo = null) {
 
     if (newTodoBtn) newTodoBtn.style.display = "none";
 
-    // Remove any existing action buttons
     document.querySelector("#addTodoBtn")?.remove();
     document.querySelector("#saveTodoBtn")?.remove();
 
@@ -229,7 +227,7 @@ function openTodoForm(todo = null) {
                 dueDate: todoDueDate.value,
                 priority: todoPriority.value
             });
-
+            
             closeTodoForm();
             renderTodos(logic.getActiveProject());
         });
