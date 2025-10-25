@@ -17,7 +17,7 @@ export default function renderApp() {
     renderTodos(logic.getActiveProject());
     hamburgerAndOverlaySidbar();
     priorityBtnsController();
-    newTodoFormController();
+    initTodoForm();
 }
 
 function renderProjects(projects, activeProjectId) {
@@ -102,12 +102,19 @@ function renderTodos(activeProject) {
         deleteTodoBtn.id = 'deleteTodoBtn';
         todoDiv.appendChild(deleteTodoBtn);
 
+        deleteTodoBtn.addEventListener('click', ()=> {
+            logic.deleteTodo(activeProject.id, todo.id);
+            renderTodos(activeProject);
+        })
+
         const editTodoBtn = document.createElement("button");
         editTodoBtn.textContent = 'Edit';
         editTodoBtn.classList.add('btn');
         editTodoBtn.classList.add('btn-primary');
         editTodoBtn.id = 'editTodoBtn';
         todoDiv.appendChild(editTodoBtn);
+
+        editTodoBtn.addEventListener('click', () => openTodoForm(todo));
 
         const priority = document.createElement("div");
         priority.classList.add("todo-priority");
@@ -142,67 +149,104 @@ function fillTodo(todo, titleEl, descriptionEl, dueDateEl, priorityEl) {
     priorityEl.classList.add(priorityColor);
 }
 
-function newTodoFormController() {
+
+
+function initTodoForm() {
     const createTodoBtn = document.querySelector("#createTodoBtn");
+    if (!createTodoBtn) return;
+
+    createTodoBtn.addEventListener('click', () => openTodoForm());
+    priorityBtnsController();
+}
 
 
-    createTodoBtn.addEventListener('click', () => {
-        const hiddenForm = document.querySelector(".todo-form");
-        hiddenForm.classList.remove("hidden");
-        createTodoBtn.remove();
+function openTodoForm(todo = null) {
+    const hiddenForm = document.querySelector(".todo-form");
+    const newTodoBtn = document.querySelector("#createTodoBtn");
 
-        const addTodoBtn = document.createElement('button');
-        addTodoBtn.classList.add("btn");
-        addTodoBtn.classList.add("btn-primary");
-        addTodoBtn.textContent = "Add Todo";
-        addTodoBtn.id = "addTodoBtn";
+    hiddenForm.classList.remove("hidden");
 
-        newTodoForm.appendChild(addTodoBtn);
+    if (newTodoBtn) newTodoBtn.style.display = "none";
 
+    // Remove any existing action buttons
+    document.querySelector("#addTodoBtn")?.remove();
+    document.querySelector("#saveTodoBtn")?.remove();
 
-        addTodoBtn.addEventListener('click', () => {
-            const todoTitle = document.querySelector("#todoTitle");
-            const todoDescription = document.querySelector("#todoDescription");
-            const todoDueDate = document.querySelector("#todoDueDate");
-            const todoPriority = document.querySelector("#todoPriority");
+    const actionBtn = document.createElement('button');
+    actionBtn.classList.add('btn', 'btn-primary');
 
-            if (
-                !todoTitle.value ||
-                !todoDescription.value ||
-                !todoDueDate.value ||
-                !todoPriority.value
-            ) {
-                console.log("missng required fields");
-                return;
-            }
+    if (todo) {
+        actionBtn.id = "saveTodoBtn";
+        actionBtn.textContent = "Save Changes";
 
-            //reset form
-            logic.createNewToDo(logic.getActiveProject().id, { title: todoTitle.value, description: todoDescription.value, dueDate: todoDueDate.value, priority: todoPriority.value });
-            todoTitle.value = '';
-            todoDescription.value = '';
-            todoDueDate.value = '';
+        const todoTitle = document.querySelector("#todoTitle");
+        const todoDescription = document.querySelector("#todoDescription");
+        const todoDueDate = document.querySelector("#todoDueDate");
+        const todoPriority = document.querySelector("#todoPriority");
 
+        todoTitle.value = todo.title;
+        todoDescription.value = todo.description;
+        todoDueDate.value = todo.dueDate;
+        todoPriority.value = todo.priority;
+
+        actionBtn.addEventListener('click', () => {
+            if (!todoTitle.value || !todoDescription.value || !todoDueDate.value || !todoPriority.value) return;
+
+            logic.editTodo(logic.getActiveProject().id, todo.id, {
+                title: todoTitle.value,
+                description: todoDescription.value,
+                dueDate: todoDueDate.value,
+                priority: todoPriority.value
+            });
+
+            closeTodoForm();
             renderTodos(logic.getActiveProject());
-            hiddenForm.classList.add("hidden");
-            addTodoBtn.remove();
-            createNewTodoBtn(newTodoForm);
-        })
+        });
 
-    })
+    } else {
+        actionBtn.id = "addTodoBtn";
+        actionBtn.textContent = "Add Todo";
 
+        const todoTitle = document.querySelector("#todoTitle");
+        const todoDescription = document.querySelector("#todoDescription");
+        const todoDueDate = document.querySelector("#todoDueDate");
+        const todoPriority = document.querySelector("#todoPriority");
 
-    function createNewTodoBtn(form) {
-        const btn = document.createElement('button');
-        btn.classList.add('btn');
-        btn.classList.add('btn-primary');
-        btn.id = 'createTodoBtn';
-        btn.textContent = "New Todo";
-        form.appendChild(btn);
-        newTodoFormController();
+        todoTitle.value = "";
+        todoDescription.value = "";
+        todoDueDate.value = "";
+        todoPriority.value = "";
 
+        actionBtn.addEventListener('click', () => {
+            if (!todoTitle.value || !todoDescription.value || !todoDueDate.value || !todoPriority.value) return;
+
+            logic.createNewToDo(logic.getActiveProject().id, {
+                title: todoTitle.value,
+                description: todoDescription.value,
+                dueDate: todoDueDate.value,
+                priority: todoPriority.value
+            });
+
+            closeTodoForm();
+            renderTodos(logic.getActiveProject());
+        });
     }
 
+    newTodoForm.appendChild(actionBtn);
 }
+
+
+function closeTodoForm() {
+    const hiddenForm = document.querySelector(".todo-form");
+    hiddenForm.classList.add("hidden");
+
+    document.querySelector("#addTodoBtn")?.remove();
+    document.querySelector("#saveTodoBtn")?.remove();
+
+    const newTodoBtn = document.querySelector("#createTodoBtn");
+    if (newTodoBtn) newTodoBtn.style.display = "inline-block"; 
+}
+
 
 
 function hamburgerAndOverlaySidbar() {
@@ -253,7 +297,7 @@ function hamburgerAndOverlaySidbar() {
 }
 
 
-function priorityBtnsController() {
+function priorityBtnsController () {
     const picker = document.querySelector('.priority-picker');
     const hidden = document.getElementById('todoPriority');
     if (!picker || !hidden) return;
@@ -265,4 +309,5 @@ function priorityBtnsController() {
         btn.classList.add('active');
         hidden.value = btn.dataset.priority;
     });
-};
+}
+
