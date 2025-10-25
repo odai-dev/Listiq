@@ -75,17 +75,45 @@ function renderTodos(activeProject) {
         title.classList.add("todo-title");
         const dueDate = document.createElement("p");
         dueDate.classList.add("todo-date");
+        const description = document.createElement("p");
+        description.classList.add('todo-desc');
         content.appendChild(title);
+        content.appendChild(description);
         content.appendChild(dueDate);
+       
         const priority = document.createElement("div");
         priority.classList.add("todo-priority");
         todoDiv.appendChild(Checkbox);
         todoDiv.appendChild(content);
         todoDiv.appendChild(priority);
-        console.log("todo", todo);        
+        
+        fillTodo(todo, title, description, dueDate, priority);
+        todosEL.appendChild(todoDiv);
+        
     })
 
     console.log(todos);
+}
+
+function fillTodo(todo, titleEl, descriptionEl,  dueDate,priority) {
+    titleEl.textContent = todo.title;
+    dueDate.textContent = todo.dueDate;
+    descriptionEl.textContent = todo.description;
+    let priorityColor = '';
+    switch (todo.priority) {
+        case "low":
+            priorityColor = 'green';
+            break;
+        case 'medium':
+            priorityColor = 'yellow';
+            break;
+        case 'high':
+            priorityColor = 'red';
+        default:
+            priorityColor = 'green'
+            break;
+    }
+    priority.classList.add(priorityColor);
 }
 
 function newTodoFormController() {

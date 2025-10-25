@@ -265,9 +265,10 @@ header h2 {
 }
 
 .todo-content {
-    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    
 }
-
 .todo-title {
     font-weight: 700;
     font-size: 1rem;
