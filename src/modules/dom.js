@@ -67,8 +67,18 @@ function renderTodos(activeProject) {
     const Checkbox = document.createElement("input");
     Checkbox.classList.add("todo-checkbox");
     Checkbox.type = "checkbox";
+    Checkbox.checked = todo.completed; // Restore checkbox state from todo data
     todoDiv.appendChild(Checkbox);
+    
+    // If already completed, apply completed styles on initial render
+    if (todo.completed) {
+      todoDiv.classList.add("completed");
+      Checkbox.disabled = true;
+    }
+    
     Checkbox.addEventListener("change", () => {
+      // Toggle the completed state in the data model and save to localStorage
+      logic.toggleTodoComplete(activeProject.id, todo.id);
       todoDiv.classList.add("completed");
       Checkbox.disabled = true;
       editTodoBtn.disabled = true;
