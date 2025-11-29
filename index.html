@@ -1,86 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Listiq Dashboard</title>
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" as="style"
-        onload="this.rel='stylesheet'">
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      as="style"
+      onload="this.rel='stylesheet'"
+    />
     <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      />
     </noscript>
-<script defer src="main.js"></script></head>
+  <script defer src="main.js"></script></head>
 
-<body>
+  <body>
     <div class="page-container">
-        <aside id="sidebar" class="aside aside--overlay" aria-hidden="true">
-            <div>
-                <div class="logo">
-                    <a href=""><i class="fa-solid fa-list-check fa-2x"></i></a>
-                    <a href="">
-                        <h1>Listiq</h1>
-                    </a>
-                </div>
-                <div class="new-project-form">
-                    <input type="text" placeholder="Project name" id="newProjectInput">
-                    <button class="btn btn-primary" id="createProjectBtn">Add Project</button>
-                </div>
-                <div class="projects-list">
-                   
-                </div>
+      <aside id="sidebar" class="aside aside--overlay" aria-hidden="true">
+        <div>
+          <div class="logo">
+            <a href=""><i class="fa-solid fa-list-check fa-2x"></i></a>
+            <a href="">
+              <h1>Listiq</h1>
+            </a>
+          </div>
+          <div class="new-project-form">
+            <input
+              type="text"
+              placeholder="Project name"
+              id="newProjectInput"
+            />
+            <button class="btn btn-primary" id="createProjectBtn">
+              Add Project
+            </button>
+          </div>
+          <div class="projects-list"></div>
+        </div>
+      </aside>
+
+      <main>
+        <header>
+          <nav>
+            <div class="mobile-brand">
+              <a href=""><i class="fa-solid fa-list-check"></i></a>
+              <a href="">
+                <h1>Listiq</h1>
+              </a>
             </div>
-        </aside>
+            <button
+              id="hamburgerBtn"
+              class="btn"
+              aria-controls="sidebar"
+              aria-expanded="false"
+              aria-label="Open menu"
+            >
+              <i class="fa-solid fa-bars"></i>
+            </button>
+          </nav>
 
-        <main>
-            <header>
-                <nav>
-                    <div class="mobile-brand">
-                        <a href=""><i class="fa-solid fa-list-check"></i></a>
-                        <a href="">
-                            <h1>Listiq</h1>
-                        </a>
-                    </div>
-                    <button id="hamburgerBtn" class="btn" aria-controls="sidebar" aria-expanded="false"
-                        aria-label="Open menu">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                </nav>
+          <h2 id="activeProjectName"></h2>
+        </header>
 
-                <h2 id="activeProjectName"></h2>
-            </header>
+        <div class="todos">
+          <div class="new-todo-form">
+            <div class="todo-form hidden">
+              <input type="text" placeholder="Todo title" id="todoTitle" />
+              <textarea
+                placeholder="Description"
+                id="todoDescription"
+              ></textarea>
 
-            <div class="todos">
-                <div class="new-todo-form">
-                    <div class="todo-form hidden ">
-                        <input type="text" placeholder="Todo title" id="todoTitle" >
-                        <textarea placeholder="Description" id="todoDescription" ></textarea>
+              <input type="date" id="todoDueDate" />
+              <div class="priority-group">
+                <span class="priority-label">Priority</span>
 
-                        <input type="date" id="todoDueDate" >
-                        <div class="priority-group">
-                            <span class="priority-label">Priority</span>
+                <input type="hidden" id="todoPriority" value="low" />
 
-                            <input type="hidden" id="todoPriority"  value="low">
-
-                            <div class="priority-picker">
-                                <button type="button" class="prio prio-low active" data-priority="low">Low</button>
-                                <button type="button" class="prio prio-medium" data-priority="medium">Medium</button>
-                                <button type="button" class="prio prio-high" data-priority="high">High</button>
-                            </div>
-                        </div>
-                    </div>
-                    <button id="createTodoBtn" class="btn btn-primary">New todo</button> 
+                <div class="priority-picker">
+                  <button
+                    type="button"
+                    class="prio prio-low active"
+                    data-priority="low"
+                  >
+                    Low
+                  </button>
+                  <button
+                    type="button"
+                    class="prio prio-medium"
+                    data-priority="medium"
+                  >
+                    Medium
+                  </button>
+                  <button
+                    type="button"
+                    class="prio prio-high"
+                    data-priority="high"
+                  >
+                    High
+                  </button>
                 </div>
-
+              </div>
             </div>
-
-
-        </main>
-        <footer id="siteFooter">
-            <p>Made with ❤️ by ODAI</p>
-        </footer>
+            <button id="createTodoBtn" class="btn btn-primary">New todo</button>
+          </div>
+        </div>
+      </main>
+      <footer id="siteFooter">
+        <p>Made with ❤️ by ODAI</p>
+      </footer>
     </div>
-
-</body>
-
+  </body>
 </html>
